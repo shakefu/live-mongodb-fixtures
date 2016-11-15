@@ -1,0 +1,12 @@
+{
+  "name": "live-mongodb-fixtures",
+  "version": "1.0.0",
+  "description": "MongoDB fixtures from real data",
+  "main": "index.js",
+  "repository": {
+    "url": "git@github.com:shakefu/live-mongodb-fixtures.git",
+    "type": "git"
+  },
+  "author": "Jacob Alheid <shakefu@gmail.com>",
+  "license": "MIT"
+}
