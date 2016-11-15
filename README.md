@@ -21,7 +21,7 @@ npm install --save-dev live-mongodb-fixtures
 ## Usage
 
 This package provides two parts for your convenience. The first is a
-programmatic API for defining your fixtures and how to query for them. The
+programmatic API for defining your fixtures and using them with tests. The
 second is a hook to allow you to easily create an npm run-script for
 manipulating your fixtures.
 
@@ -62,9 +62,8 @@ exports.users = new Fixture({
         // You can use additional key and collection definitions here
         // ...
     },
-    // This is the list of key values to query for in the defined key above
+    // This is a required list of key values to query for using the keys above
     keys: [
-        'shakefu',
         'alan_shepard',
         'neil_a',
         'buzz_a',
@@ -92,7 +91,7 @@ Here's an example:
 // test/example.js
 "use strict"
 
-// Import your fixtures
+// Import your fixtures (such as the text/fixtures.js example above)
 const fixtures = require('./fixtures')
 
 // This is an imaginary test suite.
@@ -108,7 +107,7 @@ define("a test suite", function () {
 
     after(function (done) {
         // This is optional, but can be helpful if other suites use the same
-        fixtures or the same query keys.
+        // fixtures or the same query keys.
         fixtures.users.clear(done)
     })
 
@@ -148,4 +147,28 @@ Add the following to your `package.json`, assuming your fixtures are in
   test database. This is useful if you want to manipulate the records to create
   specific test conditions.
 
+## API documentation
+
+This section documents the public API methods.
+
+### `Fixture(`*`options`*`)`
+
+Define a new fixture.
+
+- **name** (*String*) - A unique name, per project, for the fixture
+- **collections** (*Object*) - A hash mapping query keys to collections
+- **keys** (*Array*) - An array of values to query for using the query keys
+  defined in the *collections* hash
+
+### `.load(`*`callback`*`)`
+
+Load BSON fixtures into a test database.
+
+### `.get(`*`callback`*`)`
+
+Query for data from a live database and write it to BSON.
+
+### `.clear(`*`callback`*`)`
+
+Remove fixture data from a test database.
 
