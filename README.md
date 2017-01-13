@@ -193,6 +193,34 @@ Add the following to your `package.json`, assuming your fixtures are in
   test database. This is useful if you want to manipulate the records to create
   specific test conditions.
 
+### An example workflow
+
+This section describes an example of setting up fixtures for some tests.  Your
+file names, environments, and so forth may vary. Hopefully this will give you
+an idea of how to get the most of out of *live-mongodb-fixtures*.
+
+1. Figure out that you have some tests that need fixtures.
+2. Install *live-mongodb-fixtures* into your development dependencies.
+3. Create a `./test/fixtures.js` with a definition of the fixtures you need for
+   your tests.
+4. Add a *fixtures* run-script that runs the *live-mongodb-fixtures* hook.
+5. Using `NODE_ENV=production` or whatever equivalent your project uses, run
+   `npm run fixtures get` to query for real data, and save it to BSON in your
+   `./test/` directory.
+6. Using `NODE_ENV=test` or your equivalent, run `npm run fixtures load` to
+   load those BSON files into your test or local database.
+7. Use the `mongo` client, or whatever you choose, to view, edit, and
+   manipulate the fixtures in your test or local database to set up the test
+   data conditions you need.
+8. Using `NODE_ENV=test` (or equiv.), run `npm run fixtures get` to query your
+   test or local database for the data you manipulated, and write it out to
+   BSON files.
+9. Commit the BSON files to source control, so they are available for all tests
+   in the future.
+10. Use the provided *load* and *clear* methods in your test suite to load your
+    new fixtures and remove them when done, so you have real, repeatable data
+    fixtures for your test suite.
+
 ## API documentation
 
 This section documents the public API methods.
