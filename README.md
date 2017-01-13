@@ -89,6 +89,43 @@ Fixture.init(module)
 
 ```
 
+#### The collections and keys
+
+In the above example, the collections hash defines three models that use the
+`user_name` key to query. In addition, it defines three values to look for when
+querying. 
+
+When loading the fixtures for the above example, *live-mongodb-fixtures* will
+perform the equivalent of the following three queries:
+
+```javascript
+models.User.find({
+        user_name: {
+            $in: ['alan_shepard', 'neil_a', 'buzz_a']
+        }
+    }, callback)
+models.Settings.find({user_name: {$in: ['alan_shepard', 'neil_a', 'buzz_a']}}, callback)
+models.Posts.find({user_name: {$in: ['alan_shepard', 'neil_a', 'buzz_a']}}, callback)
+```
+
+In general, the format for a Fixture will be like:
+
+```javascript
+exports.users = new Fixture({
+    name: '<unique name>',
+    collections: {
+        <query key>: [<collection instance>, ...],
+    },
+    keys: [<query values>, ...]
+})
+```
+
+And the resulting query to find the Fixture data will be like:
+
+```javascript
+<collection instance>.find({<query key>: {$in: [<query value>]}}, ...)
+```
+
 ### Using fixtures in test suites
 
 This package provides a couple useful methods for use with test suites in order
