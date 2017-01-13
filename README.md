@@ -36,7 +36,7 @@ manipulating your fixtures.
 
 ### Defining your fixtures
 
-The API exports a single class, `Fixture`, which you use to create yoru
+The API exports a single class, `Fixture`, which you use to create your
 definitions. You should create a `test/fixtures.js` file in your project.
 
 You'll need to import your MongoDB models as well. Almost all the popular
