@@ -15,6 +15,15 @@ This package is available on NPM.
 Install with:
 
 ```bash
+yarn add --dev live-mongodb-fixtures
+```
+
+If you're not using [`yarn`](https://yarnpkg.com/) yet, you should consider it,
+because it's awesome.
+
+You can still install via NPM as well if you want.
+
+```bash
 npm install --save-dev live-mongodb-fixtures
 ```
 
