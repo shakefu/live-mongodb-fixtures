@@ -203,7 +203,7 @@ an idea of how to get the most of out of *live-mongodb-fixtures*.
 2. Install *live-mongodb-fixtures* into your development dependencies.
 3. Create a `./test/fixtures.js` with a definition of the fixtures you need for
    your tests.
-4. Add a *fixtures* run-script that runs the *live-mongodb-fixtures* hook.
+4. Add a `"fixtures"` run-script that runs the *live-mongodb-fixtures* hook.
 5. Using `NODE_ENV=production` or whatever equivalent your project uses, run
    `npm run fixtures get` to query for real data, and save it to BSON in your
    `./test/` directory.
