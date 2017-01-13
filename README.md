@@ -217,9 +217,9 @@ an idea of how to get the most of out of *live-mongodb-fixtures*.
    BSON files.
 9. Commit the BSON files to source control, so they are available for all tests
    in the future.
-10. Use the provided *load* and *clear* methods in your test suite to load your
-    new fixtures and remove them when done, so you have real, repeatable data
-    fixtures for your test suite.
+10. Use the provided *load()* and *clear()* methods in your test suite's
+    *before()* and *after()* hooks to load your new fixtures and remove them
+    when done, so you have real, repeatable data fixtures for your test suite.
 
 ## API documentation
 
