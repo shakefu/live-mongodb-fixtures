@@ -246,6 +246,8 @@ Define a new fixture.
 - **collections** (*Object*) - A hash mapping query keys to collections
 - **keys** (*Array*) - An array of values to query for using the query keys
   defined in the *collections* hash
+- **path** (*String*) - (optional) Path to use for BSON files for this Fixture.
+  Defaults to the same directory as the fixture module file.
 
 ### `.load(`*`callback`*`)`
 
