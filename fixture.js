@@ -35,11 +35,17 @@ class Fixture {
         // Get our list of keys for this
         assert(_.isArray(options.keys), "Fixture keys must be Array")
         this.keys = options.keys
+
+        // Default path
+        this.path = './test'
     }
 
     static init (module) {
         // debug(module.exports)
         // TODO: Get the fixtures from the exports with names
+
+        // Get the path to the fixture file, which will be the default path
+        this.path = path.dirname(module.filename) || './test'
 
         if (module.parent) {
             debug("Fixtures ready.")
@@ -241,7 +247,7 @@ class Fixture {
      * @param name {String} - Collection name
      */
     filename (name) {
-        return `./test/${name}.bson`
+        return `${this.path}/${name}.bson`
     }
 
     /**
