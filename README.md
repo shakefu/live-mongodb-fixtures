@@ -96,6 +96,9 @@ they will be written into the same directory as the module that defines the
 fixtures. In our example, that would be `./test/` because the module is
 `./test/fixtures.js`.
 
+If your fixtures lived at `./test/fixtures/users.js` instead, then the BSON
+files would be written to `./test/fixtures/`.
+
 You should commit the BSON files to your repository to be reused with tests,
 and occassionally updated as needed.
 
