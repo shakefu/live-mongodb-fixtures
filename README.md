@@ -89,6 +89,19 @@ Fixture.init(module)
 
 ```
 
+#### BSON files
+
+Using *live-mongodb-fixtures* will create a lot of `.bson` files. By default,
+they will be written into the same directory as the module that defines the
+fixtures. In our example, that would be `./test/` because the module is
+`./test/fixtures.js`.
+
+If your fixtures lived at `./test/fixtures/users.js` instead, then the BSON
+files would be written to `./test/fixtures/`.
+
+You should commit the BSON files to your repository to be reused with tests,
+and occassionally updated as needed.
+
 #### The collections and keys
 
 In the above example, the collections hash defines three models that use the
@@ -233,6 +246,8 @@ Define a new fixture.
 - **collections** (*Object*) - A hash mapping query keys to collections
 - **keys** (*Array*) - An array of values to query for using the query keys
   defined in the *collections* hash
+- **path** (*String*) - (optional) Path to use for BSON files for this Fixture.
+  Defaults to the same directory as the fixture module file.
 
 ### `.load(`*`callback`*`)`
 

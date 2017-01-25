@@ -4,6 +4,7 @@
  */
 // System
 const fs = require('fs')
+const path = require('path')
 const assert = require('assert')
 
 // 3rd party
@@ -35,11 +36,32 @@ class Fixture {
         // Get our list of keys for this
         assert(_.isArray(options.keys), "Fixture keys must be Array")
         this.keys = options.keys
+
+        // Default path is unset
+        this.path = options.path || null
     }
 
     static init (module) {
-        // debug(module.exports)
-        // TODO: Get the fixtures from the exports with names
+        let fixtures = Fixture.getFixtures(module)
+
+        // Get the path to the fixture file, which will be the default path
+        if (module.filename) {
+            let dir = path.dirname(module.filename)
+
+            // Update all the fixtures that don't specify a path with the one
+            // given
+
+            _.each(fixtures, (fixture) => {
+                if (fixture.path) return
+                // Assign the directory we found if we don't have a path already
+                fixture.path = dir
+            })
+        }
+
+        // Debug output of the directory used for each Fixture
+        _.each(fixtures, (fixture) => {
+            debug(`${fixture.name}: directory: ${fixture.path}`)
+        })
 
         if (module.parent) {
             debug("Fixtures ready.")
@@ -49,6 +71,24 @@ class Fixture {
         debug("Starting fixture CLI")
         // TODO: Pass in exports?
         Fixture.main(module)
+    }
+
+    static getFixtures (module) {
+        let exports = module.exports
+
+        // Get all the exported fixtures in this module
+        let names = {}
+        let fixtures = []
+        _.each(exports, (fixture) => {
+            if (!(fixture instanceof Fixture)) return
+            if (names[fixture.name]) {
+                throw new Error(`Duplicate fixture name: ${fixture.name}`)
+            }
+            fixtures.push(fixture)
+            names[fixture.name] = true
+        })
+
+        return fixtures
     }
 
     parse (fixtures) {
@@ -241,7 +281,9 @@ class Fixture {
      * @param name {String} - Collection name
      */
     filename (name) {
-        return `./test/${name}.bson`
+        // Provide a default directory to write to
+        let dir = this.path || './test'
+        return `${dir}/${name}.bson`
     }
 
     /**
@@ -258,19 +300,7 @@ class Fixture {
      * Runs the Fixture CLI
      */
     static main (module) {
-        let exports = module.exports
-
-        // Get all the exported fixtures in this module
-        let names = {}
-        let fixtures = []
-        _.each(exports, (fixture) => {
-            if (!(fixture instanceof Fixture)) return
-            if (names[fixture.name]) {
-                throw new Error(`Duplicate fixture name: ${fixture.name}`)
-            }
-            fixtures.push(fixture)
-            names[fixture.name] = true
-        })
+        let fixtures = Fixture.getFixtures(module)
 
         // Decide whether we're loading, getting, or erroring
         let cmd = process.argv[2]
