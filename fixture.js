@@ -9,7 +9,7 @@ const assert = require('assert')
 
 // 3rd party
 const _ = require('lodash')
-const bson = new (require('bson').BSONPure.BSON)()
+const bson = new (require('bson'))()
 const async = require('async')
 const debug = require('debug')('fixtures')
 
