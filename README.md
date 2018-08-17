@@ -89,9 +89,9 @@ Fixture.init(module)
 
 ```
 
-#### BSON files
+#### EJSON files
 
-Using *live-mongodb-fixtures* will create a lot of `.bson` files. By default,
+Using *live-mongodb-fixtures* will create a lot of `.ejson` files. By default,
 they will be written into the same directory as the module that defines the
 fixtures. In our example, that would be `./test/` because the module is
 `./test/fixtures.js`.
@@ -99,14 +99,14 @@ fixtures. In our example, that would be `./test/` because the module is
 If your fixtures lived at `./test/fixtures/users.js` instead, then the BSON
 files would be written to `./test/fixtures/`.
 
-You should commit the BSON files to your repository to be reused with tests,
+You should commit the EJSON files to your repository to be reused with tests,
 and occassionally updated as needed.
 
 #### The collections and keys
 
 In the above example, the collections hash defines three models that use the
 `user_name` key to query. In addition, it defines three values to look for when
-querying. 
+querying.
 
 When loading the fixtures for the above example, *live-mongodb-fixtures* will
 perform the equivalent of the following three queries:

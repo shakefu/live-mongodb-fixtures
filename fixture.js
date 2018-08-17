@@ -9,7 +9,7 @@ const assert = require('assert')
 
 // 3rd party
 const _ = require('lodash')
-const bson = new (require('bson'))()
+const EJSON = require('mongodb-extended-json')
 const async = require('async')
 const debug = require('debug')('fixtures')
 
@@ -157,7 +157,7 @@ class Fixture {
     }
 
     /**
-     * Load fixtures from BSON into the database.
+     * Load fixtures from EJSON into the database.
      */
     load (callback) {
         // Build all the loaders for the collections
@@ -172,7 +172,7 @@ class Fixture {
     }
 
     /**
-     * Query for fixtures in a database and write them to BSON.
+     * Query for fixtures in a database and write them to EJSON.
      */
     get (callback) {
         // Build our queries
@@ -217,7 +217,7 @@ class Fixture {
             (err, docs) => {
                 if (err) return callback(err)
                 // debug(`Got ${docs.length} for ${fixture.name}`)
-                // Write out the docs to BSON
+                // Write out the docs to EJSON
                 this.writeDocs(this.filename(fixture.name), docs, callback)
         })
     }
@@ -231,7 +231,7 @@ class Fixture {
             if (err) return callback(err)
 
             // Convert the fixtures back into javascript
-            docs = bson.deserialize(docs)
+            docs = EJSON.parse(docs)
             docs = _.toArray(docs)
 
             this.debug(`Loaded ${docs.length} from ${fixture.name}`)
@@ -251,7 +251,7 @@ class Fixture {
     }
 
     /**
-     * Serialize fixture documents to bson and write to the filesystem
+     * Serialize fixture documents to EJSON and write to the filesystem
      *
      * @param file {String} - Filename to write to
      * @param docs {Array} - Array of documents to write out
@@ -259,8 +259,8 @@ class Fixture {
      */
     writeDocs (file, docs, callback) {
         debug(`Writing ${docs.length} documents to ${file}`)
-        // Serialize the documents straight to bson
-        let data = bson.serialize(docs)
+        // Serialize the documents straight to EJSON
+        let data = EJSON.stringify(docs)
         // And dump to the filesystem for later use
         fs.writeFile(file, data, (err) => {
             callback(err, docs.length)
@@ -283,7 +283,7 @@ class Fixture {
     filename (name) {
         // Provide a default directory to write to
         let dir = this.path || './test'
-        return `${dir}/${name}.bson`
+        return `${dir}/${name}.ejson`
     }
 
     /**
@@ -338,7 +338,7 @@ class Fixture {
     }
 
     /**
-     * Gets all fixtures from the active DB and writes them to BSON files.
+     * Gets all fixtures from the active DB and writes them to EJSON files.
      */
     static getAll (fixtures) {
         // Get all fixtures in parallel
