@@ -9,7 +9,7 @@ const assert = require('assert')
 
 // 3rd party
 const _ = require('lodash')
-const EJSON = require('mongodb-extended-json')
+const EJSON = require('mongodb-extjson')
 const async = require('async')
 const debug = require('debug')('fixtures')
 
