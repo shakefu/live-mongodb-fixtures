@@ -4,7 +4,7 @@ This package provides an API to make it easy to use live data for MongoDB test
 fixtures for better reliability and indirect fuzz testing over hand tailored
 fixtures.
 
-When running `npm run fixtures get` this package will produce BSON files
+When running `npm run fixtures get` this package will produce EJSON files
 containing your fixture data which can be checked into a repository for
 versioned test fixtures.
 
@@ -89,24 +89,24 @@ Fixture.init(module)
 
 ```
 
-#### BSON files
+#### EJSON files
 
-Using *live-mongodb-fixtures* will create a lot of `.bson` files. By default,
+Using *live-mongodb-fixtures* will create a lot of `.ejson` files. By default,
 they will be written into the same directory as the module that defines the
 fixtures. In our example, that would be `./test/` because the module is
 `./test/fixtures.js`.
 
-If your fixtures lived at `./test/fixtures/users.js` instead, then the BSON
+If your fixtures lived at `./test/fixtures/users.js` instead, then the EJSON
 files would be written to `./test/fixtures/`.
 
-You should commit the BSON files to your repository to be reused with tests,
+You should commit the EJSON files to your repository to be reused with tests,
 and occassionally updated as needed.
 
 #### The collections and keys
 
 In the above example, the collections hash defines three models that use the
 `user_name` key to query. In addition, it defines three values to look for when
-querying. 
+querying.
 
 When loading the fixtures for the above example, *live-mongodb-fixtures* will
 perform the equivalent of the following three queries:
@@ -200,9 +200,9 @@ Add the following to your `package.json`, assuming your fixtures are in
 #### Script commands
 
 - `npm run fixtures get` - Queries for the defined fixtures from the database
-  and writes them out to BSON files in the fixture definition's directory. If
+  and writes them out to EJSON files in the fixture definition's directory. If
   you're happy with the fixtures, you should check them into version control.
-- `npm run fixtures load` - Reads existing BSON files and loads them into the
+- `npm run fixtures load` - Reads existing EJSON files and loads them into the
   test database. This is useful if you want to manipulate the records to create
   specific test conditions.
 
@@ -218,17 +218,17 @@ an idea of how to get the most of out of *live-mongodb-fixtures*.
    your tests.
 4. Add a `"fixtures"` run-script that runs the *live-mongodb-fixtures* hook.
 5. Using `NODE_ENV=production` or whatever equivalent your project uses, run
-   `npm run fixtures get` to query for real data, and save it to BSON in your
+   `npm run fixtures get` to query for real data, and save it to EJSON in your
    `./test/` directory.
 6. Using `NODE_ENV=test` or your equivalent, run `npm run fixtures load` to
-   load those BSON files into your test or local database.
+   load those EJSON files into your test or local database.
 7. Use the `mongo` client, or whatever you choose, to view, edit, and
    manipulate the fixtures in your test or local database to set up the test
    data conditions you need.
 8. Using `NODE_ENV=test` (or equiv.), run `npm run fixtures get` to query your
    test or local database for the data you manipulated, and write it out to
-   BSON files.
-9. Commit the BSON files to source control, so they are available for all tests
+   EJSON files.
+9. Commit the EJSON files to source control, so they are available for all tests
    in the future.
 10. Use the provided *load()* and *clear()* methods in your test suite's
     *before()* and *after()* hooks to load your new fixtures and remove them
@@ -246,16 +246,16 @@ Define a new fixture.
 - **collections** (*Object*) - A hash mapping query keys to collections
 - **keys** (*Array*) - An array of values to query for using the query keys
   defined in the *collections* hash
-- **path** (*String*) - (optional) Path to use for BSON files for this Fixture.
+- **path** (*String*) - (optional) Path to use for EJSON files for this Fixture.
   Defaults to the same directory as the fixture module file.
 
 ### `.load(`*`callback`*`)`
 
-Load BSON fixtures into a test database.
+Load EJSON fixtures into a test database.
 
 ### `.get(`*`callback`*`)`
 
-Query for data from a live database and write it to BSON.
+Query for data from a live database and write it to EJSON.
 
 ### `.clear(`*`callback`*`)`
 
